@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Aitana</title>
+  <style>
+    body {
+      background-image: url('fondo.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: repeat;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      height: 100vh; 
+      margin: 0;
+    }
+
+    h1 {
+      color: #ff4081;
+      font-size: 2.5em;
+      margin-top: 50px;
+      background: rgba(255, 226, 253); 
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .boton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgb(255, 226, 253);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 5px 10px rgba(71, 14, 59, 0.2);
+      opacity: 1;
+      z-index: 1000;
+    }
+    .boton.habilitado {
+      cursor: pointer;
+      opacity: 1;
+    }
+    .boton:hover {
+      background-color: #754f62;
+    }
+
+    .box i {
+      font-size: 1.5em;
+      color: #ff4081;      
+      font-family: "Times New Roman", serif; /* Fuente con serifas */
+
+
+    }
+
+    .hello_kitty img {
+      width: 150px; 
+      padding-top: 130px;
+    
+    }
+    .bocadillo {
+      position: absolute;     
+      top: 220px; 
+      left:41%;
+      transform: translateX(50%);
+      background-color: rgb(255, 233, 233);
+      padding: 10px ;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      font-size: 15px;
+      color: #ff4081;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .bocadillo::after {
+      content: "";
+      position: absolute;
+      bottom: -20px; 
+      left: 41%;
+      transform: translateX(-50%);
+      border-width: 10px;
+      border-style: solid;
+      border-color: rgb(255, 223, 223) transparent transparent transparent;
+    }
+    .fuegos_artificiales {
+      position: absolute;
+      width: 200px; 
+      display: none; /* Ocultos al inicio */
+    }
+    .fire1 { top: 10%; left: 10%; }
+    .fire2 { top: 15%; right: 20%; }
+    .fire3 { top: 50%; left: 30%; }
+    .contenedor-imagenes {
+      
+      display: flex;
+      flex-wrap: wrap;            /* Permite que se envuelvan en nuevas filas */
+      justify-content: flex-start;/* Alinea las imágenes al principio (izquierda) */
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: -110px;
+      width: 100%;
+      padding: 0;
+    }
+    
+    
+    
+    
+    .imagen {
+      width: 200px;  /* Cambia este valor para hacerlas más pequeñas */
+      height: 200px; /* Cambia este valor para hacerlas más pequeñas */
+      opacity: 0;
+      transition: transform 1s ease-out, opacity 1s ease-out;
+    }
+    .imagen-final {
+
+      opacity: 1;
+      transform: none;
+      
+    }
+  </style>
+</head>
+<body>
+  <h1>Feliz San Valentín 💖</h1>
+    <div class="box">
+      <button class="boton" id="boton" disabled onclick="moverKitty();mostrarImagenes()">Sorpresita (5s)</button>
+
+  </div>
+  
+  <div class="hello_kitty">
+    <img src="hk_pause.png" alt="Hello Kitty saludando" class="hello_kitty" id="kitty">
+    <div class="bocadillo">¡Te quielo mucho! 💕</div>
+  </div>
+  <img class="fuegos_artificiales fire1" src="yeah.gif" alt="Fuegos artificiales">
+  <img class="fuegos_artificiales fire2" src="fireworks.gif" alt="Fuegos artificiales">
+  <img class="fuegos_artificiales fire3" src="firework.gif" alt="Fuegos artificiales">
+  <audio id="sonido" src="boom.mp3"></audio> 
+  <audio id="alarm" src="alarm.mp3"></audio> 
+  <audio id="slip" src="slip.mp3"></audio>
+  <audio id="fairy" src="fairy.mp3"></audio>
+  <audio id="meow" src="meow.mp3"></audio>
+  <audio id="meow_2" src="meow_2.mp3"></audio>
+  <audio id="fairy_2" src="fairy_2.mp3"></audio>
+  <audio id="fairy_2" src="meow_3.mp3"></audio>
+  <audio id="purr" src="purr.mp3"></audio>
+  <div class="contenedor-imagenes" id="contenedor">
+    <img class="imagen"src="aitana_haru.jpg">
+    <img class="imagen" src="ñaru.jpg">
+    <img class="imagen" src="gus.jpg">
+    <img class="imagen" src="nosotros.jpg">
+    <img class="imagen" src="nosotros_2.jpg">
+    <img class="imagen" src="nosotros_3.jpg">
+    <img class="imagen" src="nosotros_4.jpg">
+    <img class="imagen" src="nosotros_5.jpg">
+    <img class="imagen" src="todos.jpg">
+  </div> 
+  <img class="ñep" src="">
+
+  <script>
+    let clickCount = 0;
+    let segundos = 5; // Tiempo inicial del contador
+    let boton = document.getElementById('boton');
+    let index = 0; // Índice global para recorrer las imágenes
+  
+    let imagenes = [
+      "aitana_haru.jpg",
+      "ñaru.jpg",
+      "gus.jpg",
+      "nosotros.jpg",
+      "nosotros_5.jpg",
+      "nosotros_3.jpg",
+      "nosotros_4.jpg",
+      "nosotros_2.jpg",
+      "todos.jpg",
+    
+    ];
+  
+    let intervalo = setInterval(function() {
+      segundos--;
+      boton.textContent = `Sorpresita (${segundos}s)`;
+  
+      if (segundos <= 0) {
+        clearInterval(intervalo); // Detiene el contador
+        boton.disabled = false; // Habilita el botón
+        boton.classList.add('habilitado'); // Cambia apariencia
+        boton.textContent = "Sorpresita"; // Texto final            
+      }
+    }, 1000);         
+  
+    function moverKitty() {
+      var kitty = document.getElementById('kitty');
+      if (kitty) {
+        kitty.src = 'hk.gif';
+      }
+    
+      var fuegos = document.querySelectorAll('.fuegos_artificiales');
+      fuegos.forEach(function(fuego) {
+        fuego.style.display = 'block';
+      });
+    
+      let sonido;
+      if (clickCount === 0) {
+        sonido = new Audio("boom.mp3");
+      } else if (clickCount === 1) {
+        sonido = document.getElementById("alarm");
+        boton.disabled = true; // Desactiva el botón después del primer clic
+        sonido.onended = function() {
+          boton.disabled = false; // Vuelve a habilitar el botón cuando el sonido termine
+        };
+      } else if (clickCount === 2) {
+        sonido = document.getElementById("slip");
+      } else if (clickCount === 3) {
+        sonido = new Audio("meow.mp3");
+      } else if (clickCount === 4) {
+        sonido = new Audio("fairy.mp3");
+      } else if (clickCount === 5) {
+        sonido = new Audio("meow_2.mp3");
+      } else if (clickCount === 6) {
+        sonido = new Audio("meow_3.mp3");
+      } else if (clickCount === 7) {
+        sonido = new Audio("fairy_2.mp3");
+      } else if (clickCount === 8) {
+        sonido = new Audio("purr.mp3");
+      }
+    
+      sonido.play(); // Reproduce el sonido
+      clickCount++; // Aumenta el contador para la siguiente iteración
+    
+      mostrarImagen(); // Muestra una nueva imagen en cada clic
+    }
+         
+      
+    function mostrarImagen() {
+      if (index >= imagenes.length) {
+        boton.disabled = true; // Desactiva el botón cuando no hay más imágenes
+        return; 
+      }
+  
+      let contenedor = document.getElementById("contenedor");
+      let nuevaImagen = document.createElement("img");
+  
+      nuevaImagen.src = imagenes[index];
+      nuevaImagen.classList.add("imagen");
+      contenedor.appendChild(nuevaImagen);
+  
+      // Transición para que aparezca desde el centro
+      setTimeout(() => {
+        nuevaImagen.classList.add("imagen-final");
+      }, 100);
+  
+      index++; // Aumenta el índice para la siguiente imagen en el próximo clic
+    }
+  </script>
+  
+  
+</body>
+</html>
