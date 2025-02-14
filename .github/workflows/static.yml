@@ -36,8 +36,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Subir solo la carpeta frontend donde está el archivo index.html
+          path: 'Pagina web/fronted'  # Asegúrate de que 'frontend' es la carpeta correcta
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
